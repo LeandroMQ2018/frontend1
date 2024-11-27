@@ -7,14 +7,15 @@ function DashboardPage() {
 
   useEffect(() => {
     const fetchTareas = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/tareas/estudiante', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
+    const response = await fetch('https://backend1-mgcr.onrender.com/api/tareas/estudiante', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
             'Content-Type': 'application/json',
-          },
-        });
+        },
+    });
+};
+
 
         if (!response.ok) {
           throw new Error('No se pudo obtener las tareas.');
@@ -54,12 +55,13 @@ function DashboardPage() {
   };
 
   const cerrarSesion = async () => {
-    await fetch('http://localhost:4000/api/usuarios/cerrar-sesion', {
-      method: 'POST',
-      credentials: 'include',
+    await fetch('https://backend1-mgcr.onrender.com/api/usuarios/cerrar-sesion', {
+        method: 'POST',
+        credentials: 'include',
     });
     navigate('/login');
-  };
+};
+
 
   return (
     <div>
