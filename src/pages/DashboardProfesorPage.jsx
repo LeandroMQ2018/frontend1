@@ -12,16 +12,18 @@ function DashboardProfesorPage() {
   const [nota, setNota] = useState('');
   const navigate = useNavigate();
 
+  // Fetch inicial de tareas y estudiantes
   useEffect(() => {
     fetchTareas();
     fetchEstudiantes();
   }, []);
 
+  // Obtener tareas
   const fetchTareas = async () => {
     try {
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -39,11 +41,12 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Obtener lista de estudiantes
   const fetchEstudiantes = async () => {
     try {
       const response = await fetch(`${API_URL}/api/usuarios/estudiantes`, {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -60,6 +63,7 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Crear nueva tarea
   const crearTarea = async () => {
     if (!estudianteSeleccionado) {
       alert('Seleccione un estudiante.');
@@ -69,7 +73,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'POST',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -90,6 +94,7 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Iniciar edición de tarea
   const iniciarEdicion = (tarea) => {
     setEditandoTarea(tarea);
     setTitulo(tarea.titulo);
@@ -97,6 +102,7 @@ function DashboardProfesorPage() {
     setEstudianteSeleccionado(tarea.estudiante._id);
   };
 
+  // Cancelar edición de tarea
   const cancelarEdicion = () => {
     setEditandoTarea(null);
     setTitulo('');
@@ -104,11 +110,12 @@ function DashboardProfesorPage() {
     setEstudianteSeleccionado('');
   };
 
+  // Actualizar tarea existente
   const actualizarTarea = async () => {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${editandoTarea._id}`, {
         method: 'PATCH',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -131,6 +138,7 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Asignar nota a tarea
   const asignarNota = async (tareaId) => {
     if (!nota || isNaN(nota) || nota < 0 || nota > 100) {
       alert('Por favor ingrese una nota válida entre 0 y 100');
@@ -140,7 +148,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${tareaId}/asignar-nota`, {
         method: 'POST',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -163,11 +171,12 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Eliminar tarea
   const eliminarTarea = async (id) => {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
+        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -183,6 +192,7 @@ function DashboardProfesorPage() {
     }
   };
 
+  // Cerrar sesión
   const cerrarSesion = async () => {
     navigate('/login');
   };
