@@ -9,7 +9,7 @@ function DashboardPage() {
   useEffect(() => {
     const fetchTareas = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/tareas/estudiante`, { // Usa la URL dinámica
+        const response = await fetch(`${API_URL}/api/tareas/estudiante`, { // URL dinámica
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -33,7 +33,7 @@ function DashboardPage() {
 
   const marcarTarea = async (id, estado) => {
     try {
-      const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, { // Usa la URL dinámica
+      const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, { // URL dinámica
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -54,7 +54,7 @@ function DashboardPage() {
   };
 
   const cerrarSesion = async () => {
-    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // Usa la URL dinámica
+    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // URL dinámica
       method: 'POST',
       credentials: 'include',
     });
