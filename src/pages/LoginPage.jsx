@@ -1,5 +1,8 @@
+// LoginPage.jsx
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';  // Importa js-cookie
 
 function LoginPage() {
   const [correo, setCorreo] = useState('');
@@ -8,36 +11,39 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const manejarLogin = async (e) => {
-  e.preventDefault();
-  setError('');
+    e.preventDefault();
+    setError('');
 
-  try {
-    const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/iniciar-sesion', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ correo, contraseña }),
-});
+    try {
+      const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/iniciar-sesion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ correo, contraseña }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.mensaje || 'Error al iniciar sesión');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.mensaje || 'Error al iniciar sesión');
+      }
+
+      const data = await response.json();
+
+      // Guarda el token en la cookie
+      Cookies.set('token', data.token, { expires: 7, secure: true, sameSite: 'Strict' });
+
+      // Redirige según el rol del usuario
+      if (data.usuario.rol === 'profesor') {
+        navigate('/dashboard-profesor');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      setError(error.message);
     }
-
-    const data = await response.json();
-
-    if (data.usuario.rol === 'profesor') {
-      navigate('/dashboard-profesor');
-    } else {
-      navigate('/dashboard');
-    }
-  } catch (error) {
-    console.error('Error:', error.message);
-    setError(error.message);
-  }
-};
-
+  };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
