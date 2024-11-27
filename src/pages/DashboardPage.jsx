@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 function DashboardPage() {
   const [tareas, setTareas] = useState([]);
@@ -7,15 +8,14 @@ function DashboardPage() {
 
   useEffect(() => {
     const fetchTareas = async () => {
-    const response = await fetch('https://backend1-mgcr.onrender.com/api/tareas/estudiante', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
+      try {
+        const response = await fetch(`${API_URL}/api/tareas/estudiante`, { // Usa API_URL
+          method: 'GET',
+          credentials: 'include',
+          headers: {
             'Content-Type': 'application/json',
-        },
-    });
-};
-
+          },
+        });
 
         if (!response.ok) {
           throw new Error('No se pudo obtener las tareas.');
@@ -24,8 +24,7 @@ function DashboardPage() {
         const data = await response.json();
         setTareas(data);
       } catch (error) {
-        
-        navigate('/login');
+        navigate('/login'); // Redirige al login si hay un error
       }
     };
 
@@ -34,7 +33,7 @@ function DashboardPage() {
 
   const marcarTarea = async (id, estado) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/tareas/${id}/marcar`, {
+      const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, { // Usa API_URL
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -55,13 +54,16 @@ function DashboardPage() {
   };
 
   const cerrarSesion = async () => {
-    await fetch('https://backend1-mgcr.onrender.com/api/usuarios/cerrar-sesion', {
+    try {
+      await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // Usa API_URL
         method: 'POST',
         credentials: 'include',
-    });
-    navigate('/login');
-};
-
+      });
+      navigate('/login');
+    } catch (error) {
+      alert('Error al cerrar sesión.');
+    }
+  };
 
   return (
     <div>
@@ -86,3 +88,4 @@ function DashboardPage() {
 }
 
 export default DashboardPage;
+
