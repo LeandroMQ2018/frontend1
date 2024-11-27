@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// URL base del backend
-const API_URL = 'https://backend1-mgcr.onrender.com';
+import { API_URL } from '../config'; // Importar la URL base
 
 const AuthContext = createContext();
 
@@ -17,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/usuarios/me`, {
+        const response = await fetch(`${API_URL}/api/usuarios/me`, { // URL dinámica
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -40,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   const cerrarSesion = async () => {
-    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, {
+    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // URL dinámica
       method: 'POST',
       credentials: 'include',
     });
