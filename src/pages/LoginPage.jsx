@@ -8,36 +8,37 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const manejarLogin = async (e) => {
-    e.preventDefault();
-    setError('');
+  e.preventDefault();
+  setError('');
 
-    try {
-      const response = await fetch('http://localhost:4000/api/usuarios/iniciar-sesion', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ correo, contraseña }),
-      });
+  try {
+    const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/iniciar-sesion', { // Cambiar URL
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ correo, contraseña }),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.mensaje || 'Error al iniciar sesión');
-      }
-
-      const data = await response.json();
-
-      if (data.usuario.rol === 'profesor') {
-        navigate('/dashboard-profesor');
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (error) {
-      console.error('Error:', error.message);
-      setError(error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || 'Error al iniciar sesión');
     }
-  };
+
+    const data = await response.json();
+
+    if (data.usuario.rol === 'profesor') {
+      navigate('/dashboard-profesor');
+    } else {
+      navigate('/dashboard');
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+    setError(error.message);
+  }
+};
+
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
