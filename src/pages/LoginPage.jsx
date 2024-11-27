@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { API_URL } from '../config';
 function LoginPage() {
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
