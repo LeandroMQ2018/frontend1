@@ -1,36 +1,36 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Para redirección
-import { API_URL } from '../config';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config'; // Importa la URL del backend
+
 function RegisterPage() {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [rol, setRol] = useState('estudiante');
-  const navigate = useNavigate(); // Hook para redirección
+  const navigate = useNavigate();
 
   const manejarRegistro = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/registrar', { // Cambiar URL
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ nombre, correo, contraseña, rol }),
-    });
+    e.preventDefault();
+    try {
+      const response = await fetch(`${API_URL}/api/usuarios/registrar`, { // Usa la URL dinámica
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre, correo, contraseña, rol }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.mensaje || 'Error al registrar usuario');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.mensaje || 'Error al registrar usuario');
+      }
+
+      alert('Usuario registrado con éxito.');
+      navigate('/login');
+    } catch (error) {
+      alert(error.message);
     }
-
-    alert('Usuario registrado con éxito.');
-    navigate('/login');
-  } catch (error) {
-    alert(error.message);
-  }
-};
-  
+  };
 
   return (
     <div>
