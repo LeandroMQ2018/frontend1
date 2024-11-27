@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../config'; // Importar la URL base
+import { API_URL } from '../config'; // Importar URL base
 
 function DashboardPage() {
   const [tareas, setTareas] = useState([]);
@@ -9,7 +9,7 @@ function DashboardPage() {
   useEffect(() => {
     const fetchTareas = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/tareas/estudiante`, { // URL dinámica
+        const response = await fetch(`${API_URL}/api/tareas/estudiante`, { // Usa API_URL
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -33,7 +33,7 @@ function DashboardPage() {
 
   const marcarTarea = async (id, estado) => {
     try {
-      const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, { // URL dinámica
+      const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, { // Usa API_URL
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -54,7 +54,7 @@ function DashboardPage() {
   };
 
   const cerrarSesion = async () => {
-    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // URL dinámica
+    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // Usa API_URL
       method: 'POST',
       credentials: 'include',
     });
