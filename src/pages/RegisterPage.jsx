@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Para redirección
-
+import { API_URL } from '../config';
 function RegisterPage() {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
