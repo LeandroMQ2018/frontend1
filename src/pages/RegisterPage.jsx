@@ -9,27 +9,27 @@ function RegisterPage() {
   const navigate = useNavigate(); // Hook para redirección
 
   const manejarRegistro = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:4000/api/usuarios/registrar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre, correo, contraseña, rol }),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.mensaje || 'Error al registrar usuario');
-      }
-  
-      alert('Usuario registrado con éxito.');
-      navigate('/login');
-    } catch (error) {
-      alert(error.message);
+  e.preventDefault();
+  try {
+    const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/registrar', { // Cambiar URL
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nombre, correo, contraseña, rol }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.mensaje || 'Error al registrar usuario');
     }
-  };
+
+    alert('Usuario registrado con éxito.');
+    navigate('/login');
+  } catch (error) {
+    alert(error.message);
+  }
+};
   
 
   return (
