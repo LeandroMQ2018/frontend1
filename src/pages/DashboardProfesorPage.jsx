@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
+
 function DashboardProfesorPage() {
   const [tareas, setTareas] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
@@ -11,8 +12,6 @@ function DashboardProfesorPage() {
   const [nota, setNota] = useState('');
   const navigate = useNavigate();
 
- 
-
   useEffect(() => {
     fetchTareas();
     fetchEstudiantes();
@@ -22,6 +21,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,6 +34,7 @@ function DashboardProfesorPage() {
       const data = await response.json();
       setTareas(data);
     } catch (error) {
+      console.error('Error al obtener tareas:', error);
       navigate('/login');
     }
   };
@@ -42,6 +43,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/usuarios/estudiantes`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -67,6 +69,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -105,6 +108,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${editandoTarea._id}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -136,6 +140,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${tareaId}/asignar-nota`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -162,6 +167,7 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -289,6 +295,7 @@ function DashboardProfesorPage() {
                   min="0"
                   max="100"
                   className="w-32 p-1 border rounded"
+                  value={nota}
                   onChange={(e) => setNota(e.target.value)}
                 />
                 <button
