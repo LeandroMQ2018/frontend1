@@ -288,19 +288,17 @@ function DashboardProfesorPage() {
               <p>Nota actual: {tarea.nota || 'No asignada'}</p>
             </div>
             {tarea.estado === 'entregado' && (
-              <div className="mt-2 flex gap-2">
+              <div className="mt-4">
                 <input
                   type="number"
-                  placeholder="Nota (0-100)"
-                  min="0"
-                  max="100"
-                  className="w-32 p-1 border rounded"
                   value={nota}
                   onChange={(e) => setNota(e.target.value)}
+                  className="w-full p-2 border rounded"
+                  placeholder="Asignar nota"
                 />
                 <button
                   onClick={() => asignarNota(tarea._id)}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                  className="bg-blue-500 text-white px-4 py-2 mt-2 rounded hover:bg-blue-600"
                 >
                   Asignar Nota
                 </button>
