@@ -11,16 +11,17 @@ function DashboardProfesorPage() {
   const [nota, setNota] = useState('');
   const navigate = useNavigate();
 
+  const API_URL = 'https://backend1-mgcr.onrender.com';
+
   useEffect(() => {
     fetchTareas();
     fetchEstudiantes();
-  }, [navigate]);
+  }, []);
 
   const fetchTareas = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/tareas', {
+      const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -39,9 +40,8 @@ function DashboardProfesorPage() {
 
   const fetchEstudiantes = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/usuarios/estudiantes', {
+      const response = await fetch(`${API_URL}/api/usuarios/estudiantes`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -65,9 +65,8 @@ function DashboardProfesorPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/tareas', {
+      const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -104,9 +103,8 @@ function DashboardProfesorPage() {
 
   const actualizarTarea = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/tareas/${editandoTarea._id}`, {
+      const response = await fetch(`${API_URL}/api/tareas/${editandoTarea._id}`, {
         method: 'PATCH',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -136,9 +134,8 @@ function DashboardProfesorPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/tareas/${tareaId}/asignar-nota`, {
+      const response = await fetch(`${API_URL}/api/tareas/${tareaId}/asignar-nota`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -163,9 +160,8 @@ function DashboardProfesorPage() {
 
   const eliminarTarea = async (id) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/tareas/${id}`, {
+      const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: 'DELETE',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -182,10 +178,6 @@ function DashboardProfesorPage() {
   };
 
   const cerrarSesion = async () => {
-    await fetch('http://localhost:4000/api/usuarios/cerrar-sesion', {
-      method: 'POST',
-      credentials: 'include',
-    });
     navigate('/login');
   };
 
@@ -193,7 +185,7 @@ function DashboardProfesorPage() {
     <div className="max-w-4xl mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Tareas</h1>
-        <button 
+        <button
           onClick={cerrarSesion}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
