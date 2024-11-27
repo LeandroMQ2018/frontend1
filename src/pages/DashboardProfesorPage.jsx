@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { API_URL } from '../config';
 function DashboardProfesorPage() {
   const [tareas, setTareas] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
