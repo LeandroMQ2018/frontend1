@@ -11,7 +11,7 @@ function DashboardProfesorPage() {
   const [nota, setNota] = useState('');
   const navigate = useNavigate();
 
-  const API_URL = 'https://backend1-mgcr.onrender.com';
+ 
 
   useEffect(() => {
     fetchTareas();
