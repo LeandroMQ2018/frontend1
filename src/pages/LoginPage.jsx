@@ -12,13 +12,13 @@ function LoginPage() {
   setError('');
 
   try {
-    const response = await fetch('https://backend1-mgcr.onrender.com/api/usuarios/iniciar-sesion', {
-    method: 'POST',
-    headers: {
+    const response = await fetch(`${API_URL}/api/usuarios/iniciar-sesion`, {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ correo, contraseña }),
-});
+      },
+      body: JSON.stringify({ correo, contraseña }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -37,6 +37,7 @@ function LoginPage() {
     setError(error.message);
   }
 };
+
 
 
   return (
