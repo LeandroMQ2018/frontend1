@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../config'; // Importar la URL base
+import { API_URL } from '../config';
 
 const AuthContext = createContext();
 
@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/usuarios/me`, { // URL dinámica
+        const response = await fetch(`${API_URL}/api/usuarios/me`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -30,7 +30,8 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
         setUsuario(data);
       } catch (error) {
-        navigate('/login'); // Redirige al login si no está autenticado
+        console.error('Error al autenticar:', error);
+        navigate('/login');
       }
     };
 
@@ -38,12 +39,16 @@ export const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   const cerrarSesion = async () => {
-    await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, { // URL dinámica
-      method: 'POST',
-      credentials: 'include',
-    });
-    setUsuario(null);
-    navigate('/login');
+    try {
+      await fetch(`${API_URL}/api/usuarios/cerrar-sesion`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      setUsuario(null);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   };
 
   return (
