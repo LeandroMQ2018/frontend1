@@ -1,8 +1,5 @@
-// LoginPage.jsx
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';  // Importa js-cookie
 
 function LoginPage() {
   const [correo, setCorreo] = useState('');
@@ -30,8 +27,8 @@ function LoginPage() {
 
       const data = await response.json();
 
-      // Guarda el token en la cookie
-      Cookies.set('token', data.token, { expires: 7, secure: true, sameSite: 'Strict' });
+      // Guarda el token en localStorage
+      localStorage.setItem('token', data.token);
 
       // Redirige según el rol del usuario
       if (data.usuario.rol === 'profesor') {
