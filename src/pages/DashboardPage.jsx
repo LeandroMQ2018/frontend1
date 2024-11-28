@@ -7,32 +7,31 @@ function DashboardPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTareas = async () => {
-      try {
-        const token = localStorage.getItem('token');  // Obtén el token del almacenamiento local
+  const fetchTareas = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
+        method: 'GET',
+        credentials: 'include',  // Asegúrate de que las cookies se incluyan en la solicitud
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Envío el token JWT en la cabecera
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('No se pudo obtener las tareas.');
-        }
-
-        const data = await response.json();
-        setTareas(data);
-      } catch (error) {
-        console.error('Error al obtener tareas:', error);
-        navigate('/login');
+      if (!response.ok) {
+        throw new Error('No se pudo obtener las tareas.');
       }
-    };
 
-    fetchTareas();
-  }, [navigate]);
+      const data = await response.json();
+      setTareas(data);
+    } catch (error) {
+      console.error('Error al obtener tareas:', error);
+      navigate('/login');
+    }
+  };
+
+  fetchTareas();
+}, [navigate]);
+
 
   const marcarTarea = async (id, estado) => {
     try {
