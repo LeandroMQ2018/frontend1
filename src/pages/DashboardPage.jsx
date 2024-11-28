@@ -9,13 +9,17 @@ function DashboardPage() {
   useEffect(() => {
     const fetchTareas = async () => {
       try {
-        const token = localStorage.getItem('token');  // Obtener el token desde localStorage
+        const token = localStorage.getItem('token'); // Obtener el token de localStorage
+
+        if (!token) {
+          throw new Error('No hay token de autenticación.');
+        }
 
         const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Agregar el token JWT en las cabeceras
+            'Authorization': `Bearer ${token}`,  // Asegúrate de enviar el token en el header
           },
         });
 
@@ -36,13 +40,13 @@ function DashboardPage() {
 
   const marcarTarea = async (id, estado) => {
     try {
-      const token = localStorage.getItem('token');  // Obtén el token desde localStorage
+      const token = localStorage.getItem('token'); // Obtener el token de localStorage
 
       const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Enviar el token JWT en la cabecera
+          'Authorization': `Bearer ${token}`,  // Enviar el token JWT en la cabecera
         },
         body: JSON.stringify({ estado }),
       });
@@ -58,7 +62,7 @@ function DashboardPage() {
     }
   };
 
-  const cerrarSesion = () => {
+  const cerrarSesion = async () => {
     localStorage.removeItem('token');  // Eliminar el token del localStorage
     navigate('/login');
   };
