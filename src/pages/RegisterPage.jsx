@@ -12,7 +12,7 @@ function RegisterPage() {
   const manejarRegistro = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/api/usuarios/registrar`, { // Usa la URL dinámica
+      const response = await fetch(`${API_URL}/api/usuarios/registrar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,50 +25,65 @@ function RegisterPage() {
         throw new Error(errorData.mensaje || 'Error al registrar usuario');
       }
 
-      alert('Usuario registrado con éxito.');
+      // Redirigir al login después del registro exitoso
       navigate('/login');
     } catch (error) {
-      alert(error.message);
+      console.error('Error:', error.message);
     }
   };
 
   return (
-    <div>
-      <h1>Registrar Usuario</h1>
-      <form onSubmit={manejarRegistro}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contraseña}
-          onChange={(e) => setContraseña(e.target.value)}
-          required
-        />
-        <select value={rol} onChange={(e) => setRol(e.target.value)}>
-          <option value="estudiante">Estudiante</option>
-          <option value="profesor">Profesor</option>
-        </select>
-        <button type="submit">Registrar</button>
-      </form>
-      <p>
-        ¿Ya tienes una cuenta?{' '}
-        <button onClick={() => navigate('/login')} style={{ color: 'blue', background: 'none', border: 'none', cursor: 'pointer' }}>
-          Login
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6">Registrar Usuario</h1>
+
+      <form onSubmit={manejarRegistro} className="space-y-4">
+        <div>
+          <input
+            type="text"
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="email"
+            placeholder="Correo electrónico"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={contraseña}
+            onChange={(e) => setContraseña(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <div>
+          <select
+            value={rol}
+            onChange={(e) => setRol(e.target.value)}
+            className="w-full p-2 border rounded"
+          >
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+          </select>
+        </div>
+        <button 
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
+          Registrar
         </button>
-      </p>
+      </form>
     </div>
   );
 }
