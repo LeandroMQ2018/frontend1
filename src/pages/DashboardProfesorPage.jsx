@@ -21,11 +21,13 @@ function DashboardProfesorPage() {
   // Obtener tareas
   const fetchTareas = async () => {
     try {
+      const token = localStorage.getItem('token'); // Obtén el token de localStorage
+
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'GET',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,  // Agregar token al encabezado
         },
       });
 
@@ -37,7 +39,7 @@ function DashboardProfesorPage() {
       setTareas(data);
     } catch (error) {
       console.error('Error al obtener tareas:', error);
-      navigate('/login');
+      navigate('/login'); // Redirigir si el token es inválido
     }
   };
 
@@ -46,7 +48,6 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/usuarios/estudiantes`, {
         method: 'GET',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -73,7 +74,6 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas`, {
         method: 'POST',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -115,7 +115,6 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${editandoTarea._id}`, {
         method: 'PATCH',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -148,7 +147,6 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${tareaId}/asignar-nota`, {
         method: 'POST',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
@@ -176,7 +174,6 @@ function DashboardProfesorPage() {
     try {
       const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: 'DELETE',
-        credentials: 'include', // Permite enviar cookies con la solicitud
         headers: {
           'Content-Type': 'application/json',
         },
