@@ -9,11 +9,13 @@ function DashboardPage() {
   useEffect(() => {
     const fetchTareas = async () => {
       try {
+        const token = localStorage.getItem('token');  // Obtén el token del almacenamiento local
+
         const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
           method: 'GET',
-          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Envío el token JWT en la cabecera
           },
         });
 
@@ -34,11 +36,13 @@ function DashboardPage() {
 
   const marcarTarea = async (id, estado) => {
     try {
+      const token = localStorage.getItem('token');  // Obtén el token del almacenamiento local
+
       const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, {
         method: 'PATCH',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Envío el token JWT en la cabecera
         },
         body: JSON.stringify({ estado }),
       });
@@ -55,6 +59,7 @@ function DashboardPage() {
   };
 
   const cerrarSesion = async () => {
+    localStorage.removeItem('token');  // Elimina el token del almacenamiento local
     navigate('/login');
   };
 
