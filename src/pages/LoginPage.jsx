@@ -84,7 +84,7 @@ function LoginPage() {
       <p className="mt-4 text-center text-gray-600">
         ¿No tienes una cuenta?{' '}
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/register')}
           className="text-blue-500 hover:underline"
         >
           ¡Regístrate aquí!
