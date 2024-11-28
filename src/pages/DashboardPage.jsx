@@ -7,41 +7,42 @@ function DashboardPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchTareas = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
-        method: 'GET',
-        credentials: 'include',  // Asegúrate de que las cookies se incluyan en la solicitud
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    const fetchTareas = async () => {
+      try {
+        const token = localStorage.getItem('token');  // Obtener el token desde localStorage
 
-      if (!response.ok) {
-        throw new Error('No se pudo obtener las tareas.');
+        const response = await fetch(`${API_URL}/api/tareas/estudiante`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Agregar el token JWT en las cabeceras
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('No se pudo obtener las tareas.');
+        }
+
+        const data = await response.json();
+        setTareas(data);
+      } catch (error) {
+        console.error('Error al obtener tareas:', error);
+        navigate('/login');
       }
+    };
 
-      const data = await response.json();
-      setTareas(data);
-    } catch (error) {
-      console.error('Error al obtener tareas:', error);
-      navigate('/login');
-    }
-  };
-
-  fetchTareas();
-}, [navigate]);
-
+    fetchTareas();
+  }, [navigate]);
 
   const marcarTarea = async (id, estado) => {
     try {
-      const token = localStorage.getItem('token');  // Obtén el token del almacenamiento local
+      const token = localStorage.getItem('token');  // Obtén el token desde localStorage
 
       const response = await fetch(`${API_URL}/api/tareas/${id}/marcar`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Envío el token JWT en la cabecera
+          'Authorization': `Bearer ${token}`, // Enviar el token JWT en la cabecera
         },
         body: JSON.stringify({ estado }),
       });
@@ -57,8 +58,8 @@ function DashboardPage() {
     }
   };
 
-  const cerrarSesion = async () => {
-    localStorage.removeItem('token');  // Elimina el token del almacenamiento local
+  const cerrarSesion = () => {
+    localStorage.removeItem('token');  // Eliminar el token del localStorage
     navigate('/login');
   };
 
